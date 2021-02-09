@@ -1,6 +1,8 @@
-# Falta:
-# porto onde corre httpd nas vars!
+# Missing:
 # 
+# APACHE_HTTPS_PORT to APACHE_LOGLEVEL are useless: 
+#                   not being transfered to httpd configuration!!
+
 FROM ubuntu:xenial-20210114
 
 # apt-get options for silent installations
@@ -45,7 +47,6 @@ ENV ROOT_PASSWORD=password                        \
     APACHE_LOGLEVEL=error                         \
     APACHE_WWW_DIR=/var/www                       \
     DATA_DIR=/data
-# APACHE_LOCK_DIR to APACHE_LOGLEVEL are not being transfered to httpd configuration!!
 
 RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
     && apt-get $APT_OPTIONS install apt-utils dnsutils man-db \
