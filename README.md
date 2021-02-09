@@ -36,7 +36,7 @@ If you want to stop the container, just stop the webmin server.
 
 ### Execution
 Start: \
-  docker run ***[options]*** -v ***base_dir***:/data goulart/webmin-dhcpd-bind-httpd:1.0 [***netwkInterfaces***] [--no-dns] [--no-dhcp] [--no-httpd]
+  docker  run  ***[options]***  ***[volumes]***  ***[portmaps]***  goulart/webmin-dhcpd-bind-httpd:1.0 [***netwkInterfaces***]  [--no-dns]  [--no-dhcp]  [--no-httpd]
 
 Start examples: \
   `docker run -t --rm --net host -v /etc/docker:/data:Z -v /srv/www:/var/www:Z -e APACHE_SERVER_NAME="www.local.lan" goulart/webmin-dhcpd-bind-httpd:1.0 eth0` \
@@ -57,7 +57,7 @@ Start examples: \
   - Do not start DHCP server
 
 [--no-httpd]
-  - Do not start DHCP server
+  - Do not start httpd (apache2)
 
 Webmin:
   * point browser to https://***[host]***:10000
