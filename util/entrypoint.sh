@@ -1,6 +1,5 @@
 #!/bin/bash
-
-set -e
+#set -e
 
 WEBMIN_DATA_DIR=${DATA_DIR}/webmin
 ROOT_PASSWORD=${ROOT_PASSWORD:-password}
@@ -24,6 +23,7 @@ APACHE_SERVER_NAME=${APACHE_SERVER_NAME:-$SERVER_FQDN}
 APACHE_DATA_DIR=${DATA_DIR}/httpd
 APACHE_WWW_DIR=${APACHE_WWW_DIR:-/var/www}
 APACHE_ENABLED=${APACHE_ENABLED:-true}
+APACHE_EXIT_CODE=0
 
 echo "Variables done..."
 
@@ -157,7 +157,9 @@ insert_htppd_ServerName() {
 
 if [ "$APACHE_ENABLED" == "true" ]; then
   change_httpd_user_group_id
+  #echo "httpd: user and group ID changed"
   create_httpd_data_dir
+  #echo "httpd: directories created"
   insert_htppd_ServerName
   echo "Starting httpd (apache2)..."
   /etc/init.d/apache2 start
@@ -226,13 +228,6 @@ create_default_dhcp_env_file () {
     chmod 755 $DHCPD_DEFAULT
 }
 
-#remove_stale_pid_file () {
-#    # Check for pid file, remove if it exists
-#    if [ -f "$DHCPD_DATA_DIR/run/dhcpd.pid" ]; then
-#      rm -f "$DHCPD_DATA_DIR/run/dhcpd.pid"
-#    fi
-#}
-
 create_dummy_dhcp_config () {
     BCAST=$(ip -4 addr show $1 | grep -Po 'brd \K[\d.]+')
     NETAD=$(echo $BCAST | grep -Po '\d+\.\d+\.\d+')
@@ -265,7 +260,6 @@ create_dhcp_dirs
 change_dhcp_user_group_id
 create_default_dhcp_env_file
 touch_leases_file
-# remove_stale_pid_file
 
 if [ "$DHCPD_ENABLED" == "true" ]; then
   echo "DHCPd bind interfaces: $NETW_IFACES"
