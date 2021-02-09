@@ -36,13 +36,13 @@ If you want to stop the container, just stop the webmin server.
 
 ### Execution
 Start: \
-  docker run ***[options]*** -v ***base_dir***:/data goulart/webmin-dhcpd-bind:1.2 [***netwkInterfaces***] [--no-dns] [--no-dhcp] [--no-httpd]
+  docker run ***[options]*** -v ***base_dir***:/data goulart/webmin-dhcpd-bind-httpd:1.0 [***netwkInterfaces***] [--no-dns] [--no-dhcp] [--no-httpd]
 
 Start examples: \
-  ` podman run -t --rm --net host -v /etc/docker:/data:Z -v /srv/www:/var/www:Z -e APACHE_SERVER_NAME="www.local.lan" webmin-dhcpd-bind-httpd:1.0 eth0` \
+  `docker run -t --rm --net host -v /etc/docker:/data:Z -v /srv/www:/var/www:Z -e APACHE_SERVER_NAME="www.local.lan" goulart/webmin-dhcpd-bind-httpd:1.0 eth0` \
 (`eth0` is the adapter the DHCPd will bind to)
 
-  `docker run -d --rm -p 53:53/tcp -p 53:53/udp -p 10000:10000/tcp -p 8080:80 -v /etc/docker:/data:Z -v /srv/www:/var/www:Z webmin-dhcpd-bind-httpd:1.0 --no-dhcp` \
+  `docker run -d --rm -p 53:53/tcp -p 53:53/udp -p 10000:10000/tcp -p 8080:80 -v /etc/docker:/data:Z -v /srv/www:/var/www:Z goulart/webmin-dhcpd-bind-httpd:1.0 --no-dhcp` \
 (Start bind, httpd and webmin)
 
 [***netwkInterfaces***] (dhcp only)
