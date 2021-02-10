@@ -22,7 +22,62 @@
 #d.2 -o- -o- -o- -o- --- --- ---
 #d.3 -o- -o- -o- -o- --- --- ---
 
-DATA_DIR=/etc/docker
+DATA_DIR=${DATA_DIR:-/etc/docker}
+
+ROOT_PASSWORD=password                        
+WEBMIN_ENABLED=true                           
+WEBMIN_INIT_SSL_ENABLED=true                  
+WEBMIN_INIT_REDIRECT_PORT=10000               
+WEBMIN_INIT_REFERERS=NONE                     
+BIND_USER=bind                                
+BIND_VERSION=9.10.3                           
+APACHE_VERSION=2.4.18                         
+WEBMIN_VERSION=1.970                          
+DHCPD_VERSION=4.3.3                           
+DHCPD_PROTOCOL=4                              
+APACHE_SERVER_NAME=                           
+APACHE_HTTPS_PORT=                            
+APACHE_HTTP_PORT=                             
+APACHE_LOCK_DIR=/var/lock/apache2             
+APACHE_RUN_DIR=/var/run/apache2               
+APACHE_PID_FILE=${APACHE_RUN_DIR}/apache2.pid 
+APACHE_LOG_DIR=/var/log/apache2               
+APACHE_RUN_USER=www-data                      
+APACHE_RUN_GROUP=www-data                     
+APACHE_MAX_REQUEST_WORKERS=32                 
+APACHE_MAX_CONNECTIONS_PER_CHILD=1024         
+APACHE_ALLOW_OVERRIDE=None                    
+APACHE_ALLOW_ENCODED_SLASHES=Off              
+APACHE_ERRORLOG=""                            
+APACHE_CUSTOMLOG=""                           
+APACHE_LOGLEVEL=error                         
+APACHE_WWW_DIR=/var/www                       
+DATA_DIR=/data
+
+WEBMIN_DATA_DIR=${DATA_DIR}/webmin
+ROOT_PASSWORD=${ROOT_PASSWORD:-password}
+WEBMIN_ENABLED=${WEBMIN_ENABLED:-true}
+WEBMIN_INIT_SSL_ENABLED=${WEBMIN_INIT_SSL_ENABLED:-true}
+WEBMIN_INIT_REDIRECT_PORT=${WEBMIN_INIT_REDIRECT_PORT:-10000}
+WEBMIN_INIT_REFERERS=${WEBMIN_INIT_REFERERS:-NONE}
+
+BIND_DATA_DIR=${DATA_DIR}/bind
+BIND_ENABLED=${BIND_ENABLED:-true}
+BIND_EXIT_CODE=0
+
+DHCPD_DATA_DIR=${DATA_DIR}/dhcpd
+DHCPD_ENABLED=${DHCPD_ENABLED:-true}
+DHCPD_PROTOCOL=${DHCPD_PROTOCOL:-4}
+DHCPD_DEFAULT="$DHCPD_DATA_DIR/dhcpdDefaultEnv.sh"
+DHCPD_EXIT_CODE=0
+
+SERVER_FQDN=$(hostname --fqdn 2>/dev/null || echo "$(hostname -s).local")
+APACHE_SERVER_NAME=${APACHE_SERVER_NAME:-$SERVER_FQDN}
+APACHE_DATA_DIR=${DATA_DIR}/httpd
+APACHE_WWW_DIR=${APACHE_WWW_DIR:-/var/www}
+APACHE_ENABLED=${APACHE_ENABLED:-true}
+APACHE_EXIT_CODE=0
+
 
 # Check versions
 echo Checking versions...

@@ -56,7 +56,7 @@ RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
                apache2=${APACHE_VERSION}* \
                webmin=${WEBMIN_VERSION}* \
     && sed -i "s|^DHCPD_DEFAULT=.*$|DHCPD_DEFAULT=$DATA_DIR/dhcpd/dhcpdDefaultEnv.sh|" /etc/init.d/isc-dhcp-server \
-    && sed -i 's/\-q $OPTIONS/$OPTIONS/' /etc/init.d/isc-dhcp-server \
+    && sed -i 's/\-q $OPTIONS/$OPTIONS -lf $DHCPD_LEASES /' /etc/init.d/isc-dhcp-server \
     && sed -i "s|^exec '/usr/share/webmin/miniserv.pl'|exec '/usr/share/webmin/miniserv.pl' --nofork|" /etc/webmin/start \
     && apt-get -y autoremove \
     && apt-get -y clean \
@@ -65,7 +65,8 @@ RUN rm -rf /etc/apt/apt.conf.d/docker-gzip-indexes \
 EXPOSE 53/udp 53/tcp 67/udp 68/udp 67/tcp 68/tcp 80/tcp 443/tcp 10000/tcp
 
 COPY util/entrypoint.sh /entrypoint.sh
-RUN chmod 755 /entrypoint.sh
+COPY test/basicTest.sh /basicTest.sh
+RUN chmod 755 /entrypoint.sh /basicTest.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 #CMD ["/etc/webmin/start"]
